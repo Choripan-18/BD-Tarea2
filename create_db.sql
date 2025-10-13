@@ -1,0 +1,2 @@
+CREATE DATABASE zero_pressure
+    DEFAULT CHARACTER SET = 'utf8mb4';
