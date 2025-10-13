@@ -1,4 +1,4 @@
-USE zero_pressure;
+USE zero;
 -- Tablas--
 
 -- Tabla de usuarios
@@ -29,8 +29,8 @@ CREATE TABLE ingeniero_especialidad (
     rut_ingeniero VARCHAR(10),
     id_topico INT,
     PRIMARY KEY (rut_ingeniero, id_topico),
-    FOREIGN KEY (rut_ingeniero) REFERENCES ingenieros(rut),
-    FOREIGN KEY (id_topico) REFERENCES topicos(id)
+    FOREIGN KEY (rut_ingeniero) REFERENCES ingenieros(rut) ON DELETE CASCADE,
+    FOREIGN KEY (id_topico) REFERENCES topicos(id) ON DELETE CASCADE
 );
 
 
@@ -44,8 +44,8 @@ CREATE TABLE solicitudes_funcionalidad (
     solicitante_rut VARCHAR(10) NOT NULL,
     estado VARCHAR(20) NOT NULL,
     fecha_creacion DATE NOT NULL DEFAULT CURRENT_DATE,
-    FOREIGN KEY (id_topico) REFERENCES topicos(id),
-    FOREIGN KEY (solicitante_rut) REFERENCES usuarios(rut)
+    FOREIGN KEY (id_topico) REFERENCES topicos(id) ON DELETE CASCADE,
+    FOREIGN KEY (solicitante_rut) REFERENCES usuarios(rut) ON DELETE CASCADE
 );
 
 -- Tabla de criterios de aceptación
@@ -53,7 +53,7 @@ CREATE TABLE criterios_aceptacion (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_funcionalidad INT NOT NULL,
     criterio VARCHAR(200) NOT NULL,
-    FOREIGN KEY (id_funcionalidad) REFERENCES solicitudes_funcionalidad(id)
+    FOREIGN KEY (id_funcionalidad) REFERENCES solicitudes_funcionalidad(id) ON DELETE CASCADE
 );
 
 -- Tabla de solicitudes de errores
@@ -65,8 +65,8 @@ CREATE TABLE solicitudes_error (
     id_topico INT NOT NULL,
     autor_rut VARCHAR(10) NOT NULL,
     estado VARCHAR(20) NOT NULL,
-    FOREIGN KEY (id_topico) REFERENCES topicos(id),
-    FOREIGN KEY (autor_rut) REFERENCES usuarios(rut)
+    FOREIGN KEY (id_topico) REFERENCES topicos(id) ON DELETE CASCADE,
+    FOREIGN KEY (autor_rut) REFERENCES usuarios(rut) ON DELETE CASCADE
 );
 
 -- Tabla de asignación de ingenieros
@@ -75,7 +75,7 @@ CREATE TABLE ingeniero_solicitud (
     rut_ingeniero VARCHAR(10) NOT NULL,
     tipo_solicitud VARCHAR(20) NOT NULL, -- "funcionalidad" o "error"
     id_solicitud INT NOT NULL,
-    FOREIGN KEY (rut_ingeniero) REFERENCES ingenieros(rut)
+    FOREIGN KEY (rut_ingeniero) REFERENCES ingenieros(rut) ON DELETE CASCADE
 );
 
 
