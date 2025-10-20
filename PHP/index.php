@@ -8,7 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Registro
     if (isset($_POST['registrar'])) {
         $rut = $_POST['rut'];
-        $email = $_POST['email'];
 
         // Verificar si el usuario ya existe
         $sql = "SELECT * FROM usuarios WHERE rut='$rut'";
