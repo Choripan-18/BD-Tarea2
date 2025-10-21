@@ -3,6 +3,10 @@ session_start();
 include 'conexion.php';
 
 $mensaje = "";
+function validar_rut_formato($rut) {
+    // Acepta solo dígitos y guion en la posición correcta
+    return preg_match('/^[0-9]{8}-[0-9]$/', $rut) === 1;
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rut = isset($_POST['rut']) ? trim($_POST['rut']) : '';
@@ -11,6 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['registrar'])) {
         if ($rut === '') {
             $mensaje = "RUT vacío.";
+        } elseif (!validar_rut_formato($rut)) {
+            $mensaje = "Formato de RUT inválido. Solo pueden ser números de la forma XXXXXXXX-X";
         } else {
             $stmt = $conexion->prepare("SELECT 1 FROM usuarios WHERE rut = ? LIMIT 1");
             $stmt->bind_param('s', $rut);
@@ -37,6 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['login'])) {
         if ($rut === '') {
             $mensaje = "RUT vacío.";
+        } elseif (!validar_rut_formato($rut)) {
+            $mensaje = "Formato de RUT inválido. Debe ser XXXXXXXX-X";
         } else {
             // Buscar en usuarios
             $stmt = $conexion->prepare("SELECT 1 FROM usuarios WHERE rut = ? LIMIT 1");
