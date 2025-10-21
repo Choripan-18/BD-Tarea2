@@ -8,7 +8,6 @@ if (!isset($_SESSION['id_usuario'])) {
 
 include('conexion.php'); 
 $rut = $_SESSION['id_usuario'];
-
 $rol = $_SESSION['tipo_usuario'];
 ?>
 <!doctype html>
