@@ -35,55 +35,7 @@ $stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Solicitudes</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background: #2d89ef;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 30px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f0f0f0;
-        }
-        tr:hover {
-            background-color: #f9f9f9;
-        }
-        a.btn {
-            display: inline-block;
-            padding: 8px 12px;
-            background: #2d89ef;
-            color: white;
-            border-radius: 4px;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-        a.btn:hover {
-            background: #1a5fb4;
-        }
-    </style>
+  <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
 <header>

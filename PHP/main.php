@@ -16,25 +16,7 @@ $rol = $_SESSION['tipo_usuario'];
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Inicio</title>
-  <style>
-    :root { --bg:#0f172a; --fg:#fff; --muted:#cbd5e1; --link:#38bdf8; --chip:#334155; }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#f8fafc;color:#0f172a}
-    /* Navbar */
-    .nav{position:sticky;top:0;background:var(--bg);color:var(--fg);display:flex;gap:16px;align-items:center;justify-content:space-between;padding:12px 16px}
-    .brand{font-weight:700;letter-spacing:.3px}
-    .links{display:flex;gap:10px;flex-wrap:wrap}
-    .links a{color:var(--fg);text-decoration:none;padding:6px 10px;border-radius:8px}
-    .links a:hover{background:rgba(255,255,255,.1)}
-    .right{display:flex;align-items:center;gap:12px}
-    .chip{font-size:12px;background:var(--chip);color:#e2e8f0;padding:4px 8px;border-radius:999px}
-    .logout{border:none;background:#ef4444;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}
-    .logout:hover{background:#dc2626}
-    /* Page */
-    .wrap{max-width:1000px;margin:20px auto;padding:0 16px}
-    .card{background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:18px}
-    .muted{color:#475569}
-  </style>
+  <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
   <header class="nav">

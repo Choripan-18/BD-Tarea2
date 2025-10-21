@@ -76,6 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 <head>
     <title>Login y Registro</title>
+    <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
     <h2>Login</h2>
