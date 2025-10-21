@@ -12,18 +12,19 @@ $rut = $_SESSION['id_usuario'];
 $rol = $_SESSION['tipo_usuario'];
 
 
-$query = "SELECT id, titulo, descripcion, estado, fecha_publicacion FROM solicitudes_error WHERE autor_rut = ?";
+$query = "SELECT id, titulo, resumen, estado, ambiente, fecha_creacion FROM solicitudes_funcionalidad WHERE autor_rut = ?";
 $stmt = $conexion->prepare($query);
 $stmt->bind_param('s', $id_usuario);
 $stmt->execute();
-$stmt->bind_result($id, $titulo, $descripcion, $estado, $fecha_publicacion);
+$stmt->bind_result($id, $titulo, $resumen, $estado, $ambiente, $fecha_creacion);
     while ($stmt->fetch()) {
         $rows[] = [
             'id' => $id,
             'titulo' => $titulo,
-            'descripcion' => $descripcion,
+            'ambiente' => $ambiente,
+            'resumen' => $resumen,
             'estado' => $estado,
-            'fecha_publicacion' => $fecha_publicacion
+            'fecha_creacion' => $fecha_creacion
         ];
     }
 
@@ -79,7 +80,8 @@ $stmt->close();
             <tr>
                 <th>ID</th>
                 <th>Título</th>
-                <th>Descripción</th>
+                <th>Ambiente</th>
+                <th>Resumen</th>
                 <th>Estado</th>
                 <th>Fecha</th>
             </tr>
@@ -94,9 +96,10 @@ $stmt->close();
                 <tr>
                     <td><?= htmlspecialchars($row['id']) ?></td>
                     <td><?= htmlspecialchars($row['titulo']) ?></td>
-                    <td><?= htmlspecialchars($row['descripcion']) ?></td>
+                    <td><?= htmlspecialchars($row['ambiente']) ?></td>
+                    <td><?= htmlspecialchars($row['resumen']) ?></td>
                     <td><?= htmlspecialchars($row['estado']) ?></td>
-                    <td><?= htmlspecialchars($row['fecha_publicacion']) ?></td>
+                    <td><?= htmlspecialchars($row['fecha_creacion']) ?></td>
                 </tr>
             <?php endforeach; ?>
             <?php endif; ?>
