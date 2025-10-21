@@ -29,6 +29,7 @@ $rol = $_SESSION['tipo_usuario'];
     <nav class="links">
       <!-- Ambos roles -->
       <a href="#" title="Búsqueda">Búsqueda</a>
+      <a href="main.php" title="Inicio">Inicio</a>
       <a href="#" title="Crear solicitudes">Crear solicitud</a>
 
       <?php if ($rol === 'ingeniero'): ?>
@@ -40,7 +41,7 @@ $rol = $_SESSION['tipo_usuario'];
 
       <?php if ($rol === 'usuario'): ?>
         <!-- Solo Usuario -->
-        <a href="#" title="Mis funcionalidades">Mis funcionalidades</a>
+        <a href="mis_funcionalidades.php" title="Mis funcionalidades">Mis funcionalidades</a>
         <a href="mis_errores.php" title="Mis errores">Mis errores</a>
       <?php endif; ?>
     </nav>
