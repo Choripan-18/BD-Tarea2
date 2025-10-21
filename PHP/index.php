@@ -32,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "SELECT * FROM usuarios WHERE rut='$rut'";
         $result = $conexion->query($sql);
         if ($result->num_rows > 0) {
-            $_SESSION['usuario'] = $rut;
-            header("Location: main.php");
+            $_SESSION['id_usuario'] = $rut;
+            header("Location: mis_solicitudes.php");
             exit();
         } else {
             $mensaje = "usuario no existente";

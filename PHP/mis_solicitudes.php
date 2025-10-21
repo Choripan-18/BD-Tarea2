@@ -1,18 +1,31 @@
 <?php
-// mis_solicitudes.php sencillo
+
 session_start();
+include('conexion.php'); 
 if (!isset($_SESSION['id_usuario'])) {
     header('Location: index.php');
     exit();
 }
-include('conexion.php'); // tu archivo de conexión
+
 $id_usuario = $_SESSION['id_usuario'];
 
-$query = "SELECT id, titulo, descripcion, estado, fecha_creacion FROM solicitudes WHERE id_usuario = ?";
+
+$query = "SELECT id, titulo, descripcion, estado, fecha_publicacion FROM solicitudes_error WHERE autor_rut = ?";
 $stmt = $conexion->prepare($query);
-$stmt->bind_param('i', $id_usuario);
+$stmt->bind_param('s', $id_usuario);
 $stmt->execute();
-$result = $stmt->get_result();
+$stmt->bind_result($id, $titulo, $descripcion, $estado, $fecha_publicacion);
+    while ($stmt->fetch()) {
+        $rows[] = [
+            'id' => $id,
+            'titulo' => $titulo,
+            'descripcion' => $descripcion,
+            'estado' => $estado,
+            'fecha_publicacion' => $fecha_publicacion
+        ];
+    }
+
+$stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -86,15 +99,21 @@ $result = $stmt->get_result();
             </tr>
         </thead>
         <tbody>
-            <?php while($row = $result->fetch_assoc()): ?>
+            <?php if (empty($rows)): ?>
+                <tr>
+                    <td colspan="5" style="text-align:center;">No hay solicitudes registradas.</td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($rows as $row): ?>
                 <tr>
                     <td><?= htmlspecialchars($row['id']) ?></td>
                     <td><?= htmlspecialchars($row['titulo']) ?></td>
                     <td><?= htmlspecialchars($row['descripcion']) ?></td>
                     <td><?= htmlspecialchars($row['estado']) ?></td>
-                    <td><?= htmlspecialchars($row['fecha_creacion']) ?></td>
+                    <td><?= htmlspecialchars($row['fecha_publicacion']) ?></td>
                 </tr>
-            <?php endwhile; ?>
+            <?php endforeach; ?>
+            <?php endif; ?>
         </tbody>
     </table>
     <a class="btn" href="usuario_inicio.php">Volver al inicio</a>
