@@ -5,7 +5,6 @@ include 'conexion.php';
 $mensaje = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // definir $rut siempre que haya POST
     $rut = isset($_POST['rut']) ? trim($_POST['rut']) : '';
 
     // Registro
@@ -49,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['usuario'] = $rut; // clave que espera main.php
                 $_SESSION['tipo_usuario'] = 'usuario';
                 $stmt->close();
-                header("Location: main.php");
+                header("Location: mis_solicitudes.php");
                 exit();
             }
             $stmt->close();
@@ -64,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['usuario'] = $rut; // clave que espera main.php
                 $_SESSION['tipo_usuario'] = 'ingeniero';
                 $stmt->close();
-                header("Location: main.php");
+                header("Location: mis_solicitudes.php");
                 exit();
             }
             $stmt->close();
