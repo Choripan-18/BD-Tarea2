@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mensaje = "usuario registrado";
         } else {
             // Insertar nuevo usuario
-            $sql = "INSERT INTO usuarios (rut, email) VALUES ('$rut', '$email')";
+            $sql = "INSERT INTO usuarios (rut) VALUES ('$rut')";
             if ($conexion->query($sql) === TRUE) {
                 $mensaje = "Registro exitoso. Ahora puedes iniciar sesión.";
             } else {
@@ -28,13 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Login
     if (isset($_POST['login'])) {
         $rut = $_POST['rut'];
-        $email = $_POST['email'];
 
-        $sql = "SELECT * FROM usuarios WHERE rut='$rut' AND email='$email'";
+        $sql = "SELECT * FROM usuarios WHERE rut='$rut'";
         $result = $conexion->query($sql);
         if ($result->num_rows > 0) {
             $_SESSION['usuario'] = $rut;
-            header("Location: principal.php");
+            header("Location: main.php");
             exit();
         } else {
             $mensaje = "usuario no existente";
@@ -52,13 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h2>Login</h2>
     <form method="post">
         RUT: <input type="text" name="rut" required><br>
-        Email: <input type="email" name="email" required><br>
         <button type="submit" name="login">Entrar</button>
     </form>
     <h2>Registro</h2>
     <form method="post">
         RUT: <input type="text" name="rut" required><br>
-        Email: <input type="email" name="email" required><br>
         <button type="submit" name="registrar">Registrar</button>
     </form>
     <p style="color:red;"><?php echo $mensaje; ?></p>
