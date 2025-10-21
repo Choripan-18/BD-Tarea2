@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $conexion->query($sql);
         if ($result->num_rows > 0) {
             $_SESSION['id_usuario'] = $rut;
-            header("Location: mis_solicitudes.php");
+            header("Location: main.php");
             exit();
         } else {
             $mensaje = "usuario no existente";
