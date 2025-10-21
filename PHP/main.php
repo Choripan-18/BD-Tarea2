@@ -1,39 +1,15 @@
 <?php
-// principal.php — página inicial con navbar y control de visibilidad por rol
-// Requisitos/Asunciones (ajusta si tu esquema difiere):
-// - La sesión guarda el RUT en $_SESSION['usuario'] (tal como hace tu index.php)
-// - Existen tablas: usuarios(rut, ...), ingenieros(rut, ...)
-// - Una persona está en una sola tabla (mutuamente excluyentes)
-// - Este archivo vive junto a conexion.php (que define $conexion como mysqli)
-
 session_start();
-if (!isset($_SESSION['usuario'])) {
+if (!isset($_SESSION['id_usuario'])) {
     header('Location: index.php');
     exit();
 }
 
 
-require_once 'conexion.php'; // debe definir $conexion (mysqli)
+include('conexion.php'); 
 $rut = $_SESSION['id_usuario'];
 
-// Detecta rol: primero buscamos en ingenieros, si no, en usuarios
-$esIngeniero = false; $esUsuario = false;
-if ($stmt = $conexion->prepare('SELECT 1 FROM ingenieros WHERE rut = ? LIMIT 1')) {
-    $stmt->bind_param('s', $rut);
-    $stmt->execute();
-    $stmt->store_result();
-    $esIngeniero = $stmt->num_rows > 0;
-    $stmt->close();
-}
-if (!$esIngeniero && ($stmt = $conexion->prepare('SELECT 1 FROM usuarios WHERE rut = ? LIMIT 1'))) {
-    $stmt->bind_param('s', $rut);
-    $stmt->execute();
-    $stmt->store_result();
-    $esUsuario = $stmt->num_rows > 0;
-    $stmt->close();
-}
-
-$rol = $esIngeniero ? 'INGENIERO' : ($esUsuario ? 'USUARIO' : 'DESCONOCIDO');
+$rol = $_SESSION['tipo_usuario'];
 ?>
 <!doctype html>
 <html lang="es">
@@ -74,17 +50,17 @@ $rol = $esIngeniero ? 'INGENIERO' : ($esUsuario ? 'USUARIO' : 'DESCONOCIDO');
       <a href="#" title="Búsqueda">Búsqueda</a>
       <a href="#" title="Crear solicitudes">Crear solicitud</a>
 
-      <?php if ($esIngeniero): ?>
+      <?php if ($rol === 'ingeniero'): ?>
         <!-- Solo Ingeniero -->
         <a href="#" title="Todas las funcionalidades">Funcionalidades (todas)</a>
         <a href="#" title="Todos los errores">Errores (todas)</a>
         <a href="#" title="Asignadas a mí">Asignadas a mí</a>
       <?php endif; ?>
 
-      <?php if ($esUsuario): ?>
+      <?php if ($rol === 'usuario'): ?>
         <!-- Solo Usuario -->
         <a href="#" title="Mis funcionalidades">Mis funcionalidades</a>
-        <a href="#" title="Mis errores">Mis errores</a>
+        <a href="mis_errores.php" title="Mis errores">Mis errores</a>
       <?php endif; ?>
     </nav>
 

@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['id_usuario'] = $rut;
                 $_SESSION['tipo_usuario'] = 'usuario';
                 $stmt->close();
-                header("Location: mis_solicitudes.php");
+                header("Location: main.php");
                 exit();
             }
             $stmt->close();
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['id_usuario'] = $rut;
                 $_SESSION['tipo_usuario'] = 'ingeniero';
                 $stmt->close();
-                header("Location: mis_solicitudes.php");
+                header("Location: main.php");
                 exit();
             }
             $stmt->close();

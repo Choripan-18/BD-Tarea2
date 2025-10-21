@@ -1,13 +1,14 @@
 <?php
 
 session_start();
-include('conexion.php'); 
 if (!isset($_SESSION['id_usuario'])) {
     header('Location: index.php');
     exit();
 }
+include('conexion.php'); 
 
 $id_usuario = $_SESSION['id_usuario'];
+$rol = $_SESSION['tipo_usuario'];
 
 
 $query = "SELECT id, titulo, descripcion, estado, fecha_publicacion FROM solicitudes_error WHERE autor_rut = ?";
@@ -85,7 +86,38 @@ $stmt->close();
 </head>
 <body>
 <header>
-    <h1>Mis Solicitudes</h1>
+  <header class="nav">
+    <div class="left" style="display:flex;align-items:center;gap:12px">
+      <div class="brand">ZeroPressure</div>
+      <span class="chip">RUT: <?php echo htmlspecialchars($rut); ?></span>
+      <span class="chip">ROL: <?php echo htmlspecialchars($rol); ?></span>
+    </div>
+
+    <nav class="links">
+      <!-- Ambos roles -->
+      <a href="#" title="Búsqueda">Búsqueda</a>
+      <a href="#" title="Crear solicitudes">Crear solicitud</a>
+
+      <?php if ($rol === 'ingeniero'): ?>
+        <!-- Solo Ingeniero -->
+        <a href="#" title="Todas las funcionalidades">Funcionalidades (todas)</a>
+        <a href="#" title="Todos los errores">Errores (todas)</a>
+        <a href="#" title="Asignadas a mí">Asignadas a mí</a>
+      <?php endif; ?>
+
+      <?php if ($rol === 'usuario'): ?>
+        <!-- Solo Usuario -->
+        <a href="#" title="Mis funcionalidades">Mis funcionalidades</a>
+        <a href="mis_errores.php" title="Mis errores">Mis errores</a>
+      <?php endif; ?>
+    </nav>
+
+    <div class="right">
+      <form method="post" action="logout.php">
+        <button class="logout" type="submit" name="logout">Cerrar sesión</button>
+      </form>
+    </div>
+  </header>
 </header>
 <div class="container">
     <table>
@@ -116,7 +148,6 @@ $stmt->close();
             <?php endif; ?>
         </tbody>
     </table>
-    <a class="btn" href="usuario_inicio.php">Volver al inicio</a>
 </div>
 </body>
 </html>
