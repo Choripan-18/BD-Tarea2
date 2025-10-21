@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->store_result();
             if ($stmt->num_rows > 0) {
                 $_SESSION['id_usuario'] = $rut;
+                $_SESSION['usuario'] = $rut; // clave que espera main.php
                 $_SESSION['tipo_usuario'] = 'usuario';
                 $stmt->close();
                 header("Location: main.php");
@@ -60,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->store_result();
             if ($stmt->num_rows > 0) {
                 $_SESSION['id_usuario'] = $rut;
+                $_SESSION['usuario'] = $rut; // clave que espera main.php
                 $_SESSION['tipo_usuario'] = 'ingeniero';
                 $stmt->close();
                 header("Location: main.php");

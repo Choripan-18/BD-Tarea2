@@ -15,7 +15,7 @@ if (!isset($_SESSION['usuario'])) {
 
 require_once 'conexion.php'; // debe definir $conexion (mysqli)
 $rut = $_SESSION['id_usuario'];
-
+$_SESSION['usuario'] = $rut;
 // Detecta rol: primero buscamos en ingenieros, si no, en usuarios
 $esIngeniero = false; $esUsuario = false;
 if ($stmt = $conexion->prepare('SELECT 1 FROM ingenieros WHERE rut = ? LIMIT 1')) {
