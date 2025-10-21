@@ -5,37 +5,68 @@ include 'conexion.php';
 $mensaje = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // definir $rut siempre que haya POST
+    $rut = isset($_POST['rut']) ? trim($_POST['rut']) : '';
+
     // Registro
     if (isset($_POST['registrar'])) {
-        $rut = $_POST['rut'];
-
-        // Verificar si el usuario ya existe
-        $sql = "SELECT * FROM usuarios WHERE rut='$rut'";
-        $result = $conexion->query($sql);
-        if ($result->num_rows > 0) {
-            $mensaje = "usuario registrado";
+        if ($rut === '') {
+            $mensaje = "RUT vacío.";
         } else {
-            // Insertar nuevo usuario
-            $sql = "INSERT INTO usuarios (rut) VALUES ('$rut')";
-            if ($conexion->query($sql) === TRUE) {
-                $mensaje = "Registro exitoso. Ahora puedes iniciar sesión.";
+            $stmt = $conexion->prepare("SELECT 1 FROM usuarios WHERE rut = ? LIMIT 1");
+            $stmt->bind_param('s', $rut);
+            $stmt->execute();
+            $stmt->store_result();
+            if ($stmt->num_rows > 0) {
+                $mensaje = "usuario registrado";
+                $stmt->close();
             } else {
-                $mensaje = "Error al registrar: " . $conexion->error;
+                $stmt->close();
+                $ins = $conexion->prepare("INSERT INTO usuarios (rut) VALUES (?)");
+                $ins->bind_param('s', $rut);
+                if ($ins->execute()) {
+                    $mensaje = "Registro exitoso. Ahora puedes iniciar sesión.";
+                } else {
+                    $mensaje = "Error al registrar: " . htmlspecialchars($conexion->error);
+                }
+                $ins->close();
             }
         }
     }
 
     // Login
     if (isset($_POST['login'])) {
-        $rut = $_POST['rut'];
-
-        $sql = "SELECT * FROM usuarios WHERE rut='$rut'";
-        $result = $conexion->query($sql);
-        if ($result->num_rows > 0) {
-            $_SESSION['id_usuario'] = $rut;
-            header("Location: mis_solicitudes.php");
-            exit();
+        if ($rut === '') {
+            $mensaje = "RUT vacío.";
         } else {
+            // Buscar en usuarios
+            $stmt = $conexion->prepare("SELECT 1 FROM usuarios WHERE rut = ? LIMIT 1");
+            $stmt->bind_param('s', $rut);
+            $stmt->execute();
+            $stmt->store_result();
+            if ($stmt->num_rows > 0) {
+                $_SESSION['id_usuario'] = $rut;
+                $_SESSION['tipo_usuario'] = 'usuario';
+                $stmt->close();
+                header("Location: main.php");
+                exit();
+            }
+            $stmt->close();
+
+            // Buscar en ingenieros 
+            $stmt = $conexion->prepare("SELECT 1 FROM ingenieros WHERE rut = ? LIMIT 1");
+            $stmt->bind_param('s', $rut);
+            $stmt->execute();
+            $stmt->store_result();
+            if ($stmt->num_rows > 0) {
+                $_SESSION['id_usuario'] = $rut;
+                $_SESSION['tipo_usuario'] = 'ingeniero';
+                $stmt->close();
+                header("Location: main.php");
+                exit();
+            }
+            $stmt->close();
+
             $mensaje = "usuario no existente";
         }
     }
@@ -58,6 +89,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         RUT: <input type="text" name="rut" required><br>
         <button type="submit" name="registrar">Registrar</button>
     </form>
-    <p style="color:red;"><?php echo $mensaje; ?></p>
+    <p style="color:red;"><?php echo htmlspecialchars($mensaje); ?></p>
 </body>
 </html>
