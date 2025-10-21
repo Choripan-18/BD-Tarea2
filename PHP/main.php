@@ -12,16 +12,9 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
-// Cerrar sesión en la misma página (sin crear logout.php)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
-    session_unset();
-    session_destroy();
-    header('Location: index.php');
-    exit();
-}
 
 require_once 'conexion.php'; // debe definir $conexion (mysqli)
-$rut = $_SESSION['usuario'];
+$rut = $_SESSION['id_usuario'];
 
 // Detecta rol: primero buscamos en ingenieros, si no, en usuarios
 $esIngeniero = false; $esUsuario = false;
@@ -96,7 +89,7 @@ $rol = $esIngeniero ? 'INGENIERO' : ($esUsuario ? 'USUARIO' : 'DESCONOCIDO');
     </nav>
 
     <div class="right">
-      <form method="post">
+      <form method="post" action="logout.php">
         <button class="logout" type="submit" name="logout">Cerrar sesión</button>
       </form>
     </div>
